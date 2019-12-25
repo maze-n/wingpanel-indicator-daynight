@@ -1,4 +1,4 @@
-<p align="center"># indicator-daynight</p>
+<p align="center"><h2># indicator-daynight</h2>
 
 A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.
 
