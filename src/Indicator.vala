@@ -20,20 +20,46 @@
 public class Daynight.Indicator : Wingpanel.Indicator {
     private Gtk.Grid main_grid;
     private Gtk.Image display_icon;
+    private GLib.KeyFile keyfile;
+    private string path;
+    private Wingpanel.Widgets.Switch toggle_switch;
+
 
     public Indicator () {
-        Object (code_name: "",
-                display_name: _("indicator-daynight"),
-                description:_("A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS."));
+        Object (
+            code_name: "Daynight",
+            display_name: _("indicator-daynight"),
+            description:_("A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.")
+        );
     }
 
     construct {
-        display_icon = new Gtk.Image.from_icon_name ("display-brightness-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
+        keyfile = new GLib.KeyFile ();
 
-        var toggle_switch = new Wingpanel.Widgets.Switch ("Prefer dark variant");
+        try {
+            path = GLib.Environment.get_user_config_dir() + "/gtk-3.0/settings.ini";
+            keyfile.load_from_file (path, 0);
+        }
+        catch (Error e) {
+            warning ("Error loading GTK+ Keyfile settings.ini: " + e.message);
+        }
+
+        var indicator_logo = "display-brightness-symbolic";
+        var is_dark = get_integer("gtk-application-prefer-dark-theme");
+
+        toggle_switch = new Wingpanel.Widgets.Switch ("Prefer dark variant");
+
+        if(is_dark == 1) {
+            toggle_switch.set_active(true);
+            indicator_logo = "weather-clear-night-symbolic";
+        } else {
+            toggle_switch.set_active(false);
+        }
+
+        display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
         var restart_button = new Gtk.ModelButton();
-        restart_button.text = "Restart panel and dock";
+        restart_button.text = "Restart dock and panel";
 
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
@@ -42,10 +68,47 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         this.visible = true;
 
+        connect_signals();
+    }
+
+    private void connect_signals() {
         toggle_switch.notify["active"].connect (() => {
             display_icon.set_from_icon_name (toggle_switch.active ? "weather-clear-night-symbolic" : "display-brightness-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
+            if(toggle_switch.active){
+                set_integer("gtk-application-prefer-dark-theme", 1);
+            } else {
+                set_integer("gtk-application-prefer-dark-theme", 0);
+            }
         });
-        
+    }
+
+    private int get_integer (string key) {
+        int key_int = 0;
+
+        try {
+            key_int = keyfile.get_integer ("Settings", key);
+        }
+        catch (Error e) {
+            warning ("Error getting GTK+ int setting: " + e.message);
+        }
+
+        return key_int;
+    }
+
+    private void set_integer (string key, int val) {
+        keyfile.set_integer ("Settings", key, val);
+
+        save_keyfile ();
+    }
+
+    private void save_keyfile () {
+        try {
+            string data = keyfile.to_data();
+            GLib.FileUtils.set_contents(path, data);
+        }
+        catch (GLib.FileError e) {
+            warning ("Error saving GTK+ Keyfile settings.ini: " + e.message);
+        }
     }
 
     public override Gtk.Widget get_display_widget () {
