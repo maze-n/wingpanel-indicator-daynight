@@ -1,4 +1,6 @@
-# indicator-daynight wingpanel indicator
+# indicator-daynight
+
+A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.
 
 ## Install, build and run
 
