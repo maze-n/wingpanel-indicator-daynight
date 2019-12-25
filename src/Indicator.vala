@@ -34,6 +34,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
     }
 
     construct {
+        //accessing the settings.ini file
         keyfile = new GLib.KeyFile ();
 
         try {
@@ -81,7 +82,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             }
         });
     }
-
+    //function to get value from settings.ini
     private int get_integer (string key) {
         int key_int = 0;
 
@@ -94,7 +95,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         return key_int;
     }
-
+    //function to set value into settings.ini
     private void set_integer (string key, int val) {
         keyfile.set_integer ("Settings", key, val);
 
