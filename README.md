@@ -1,8 +1,8 @@
 <h1 align="center">indicator-daynight</h1>
 
-<p align="center">A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.</p>
+<p align="center">A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.
 
-<p align="center"><img src="https://raw.githubusercontent.com/maze-n/indicator-daynight/master/screenshots/screenshot.png" width="400">
+<img src="https://raw.githubusercontent.com/maze-n/indicator-daynight/master/screenshots/screenshot.png" width="400">
 </p>
 
 ## Install, build and run
