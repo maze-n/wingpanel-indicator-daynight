@@ -23,6 +23,8 @@ public class Daynight.Indicator : Wingpanel.Indicator {
     private GLib.KeyFile keyfile;
     private string path;
     private Wingpanel.Widgets.Switch toggle_switch;
+    Gtk.ModelButton restart_button;
+
 
 
     public Indicator () {
@@ -59,7 +61,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
-        var restart_button = new Gtk.ModelButton();
+        restart_button = new Gtk.ModelButton();
         restart_button.text = "Restart dock and panel";
 
         main_grid = new Gtk.Grid();
@@ -80,6 +82,10 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             } else {
                 set_integer("gtk-application-prefer-dark-theme", 0);
             }
+        });
+
+        restart_button.clicked.connect(() => {
+            Posix.system("pkill wingpanel && pkill plank");
         });
     }
     //function to get value from settings.ini
