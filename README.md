@@ -10,6 +10,8 @@
 ```bash
 # install elementary-sdk, meson and libwingpanel
 sudo apt install elementary-sdk meson libwingpanel-2.0-dev
+#install dependencies
+sudo apt install libgconf2-dev libglib2.0-dev libgranite-dev libxml2-dev
 # clone repository
 git clone https://github.com/maze-n/indicator-daynight.git indicator-daynight
 # cd to dir
@@ -21,4 +23,7 @@ cd build
 sudo ninja install
 # restart switchboard to load your indicator
 pkill wingpanel -9
+# uninstall
+cd build
+sudo ninja uninstall
 ```
