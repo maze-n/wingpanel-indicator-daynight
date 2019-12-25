@@ -1,4 +1,4 @@
-<p align="center"><h1>indicator-daynight</h1></p>
+<h1 align="center">indicator-daynight</h1>
 
 <p align="center">A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.</p>
 
