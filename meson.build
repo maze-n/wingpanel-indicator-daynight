@@ -1,7 +1,6 @@
 project('indicator-daynight', 'vala', 'c')
 
-i18n = import('i18n')
-gettext_name = meson.project_name() + '-indicator'
+gettext_name = meson.project_name()
 
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(gettext_name), language:'c')
 
