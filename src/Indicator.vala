@@ -50,7 +50,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         var indicator_logo = "display-brightness-symbolic";
         var is_dark = get_integer("gtk-application-prefer-dark-theme");
 
-        toggle_switch = new Wingpanel.Widgets.Switch ("Prefer dark variant");
+        toggle_switch = new Wingpanel.Widgets.Switch ("Prefer Dark Variant");
         toggle_switch.get_style_context().add_class ("h4");
 
         if(is_dark == 1) {
@@ -63,7 +63,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
         restart_button = new Gtk.ModelButton();
-        restart_button.text = "Restart dock and panel";
+        restart_button.text = "Restart Dock and Panel";
 
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
