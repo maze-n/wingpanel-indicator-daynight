@@ -25,7 +25,7 @@ sudo ninja install
 pkill wingpanel -9
 ```
 
-## uninstall
+## Uninstall
 
 ```bash
 cd build
