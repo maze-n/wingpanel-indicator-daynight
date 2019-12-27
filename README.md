@@ -23,7 +23,11 @@ cd build
 sudo ninja install
 # restart switchboard to load your indicator
 pkill wingpanel -9
-# uninstall
+```
+
+## uninstall
+
+```bash
 cd build
 sudo ninja uninstall
 ```
