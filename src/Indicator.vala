@@ -51,6 +51,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         var is_dark = get_integer("gtk-application-prefer-dark-theme");
 
         toggle_switch = new Wingpanel.Widgets.Switch ("Prefer dark variant");
+        toggle_switch.get_style_context().add_class ("h4");
 
         if(is_dark == 1) {
             toggle_switch.set_active(true);
