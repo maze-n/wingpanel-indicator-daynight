@@ -63,7 +63,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
         restart_button = new Gtk.ModelButton();
-        restart_button.text = "Restart Dock and Panel";
+        restart_button.text = "Restart Dock and Panel...";
 
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
