@@ -138,7 +138,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         apply_button.halign = Gtk.Align.CENTER;
         apply_button.get_style_context().add_class("suggested-action");
         apply_button.clicked.connect(() => {
-            Posix.system("pkill wingpanel && pkill plank");
+            Posix.system("pkill wingpanel");
         });
 
         content_area.add(restart_on_toggle_switch);
