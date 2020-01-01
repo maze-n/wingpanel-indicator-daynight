@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema path="/com/github/maze-n/indicator-daynight/" id="com.github.maze-n.indicator-daynight">
+        <key name="restart-on-toggle" type="i">
+            <default>0</default>
+            <summary>Restart Dock and Panel on toggle.</summary>
+            <description>The saved value for determining whether the user want to restart dock and panel on toggle.</description>
+        </key>
+        <key name="button-show" type="i">
+            <default>1</default>
+            <summary>Show restart button on indicator.</summary>
+            <description>The saved value to toggle visibility of restart button on indicator.</description>
+        </key>
+    </schema>
+</schemalist>
