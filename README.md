@@ -34,6 +34,5 @@ sudo ninja uninstall
 
 ## Todo
 
-- [ ] Include a settings button and window.
 - [ ] Include screen brightness control.
 - [ ] Create a fork of https://github.com/elementary/wingpanel-indicator-power removing the brightness control to use with this indicator.
