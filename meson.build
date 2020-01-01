@@ -1,4 +1,4 @@
-project('indicator-daynight', 'vala', 'c')
+project('com.github.maze-n.indicator-daynight', 'vala', 'c')
 
 gettext_name = meson.project_name()
 
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 files = [
-    'src/Indicator.vala'
+    'src/Indicator.vala',
 ]
 
 shared_module(
@@ -28,3 +28,7 @@ shared_module(
     install: true,
     install_dir : wingpanel_dep.get_pkgconfig_variable('indicatorsdir')
 )
+
+subdir('data/')
+
+meson.add_install_script('meson/post_install.py')
