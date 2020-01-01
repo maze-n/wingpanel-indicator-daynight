@@ -18,12 +18,14 @@
  */
 
 public class Daynight.Indicator : Wingpanel.Indicator {
+    public GLib.Settings settings;
     private Gtk.Grid main_grid;
     private Gtk.Image display_icon;
     private GLib.KeyFile keyfile;
     private string path;
     private Wingpanel.Widgets.Switch toggle_switch;
     Gtk.ModelButton restart_button;
+    Gtk.ModelButton settings_button;
 
 
 
@@ -47,6 +49,8 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             warning ("Error loading GTK+ Keyfile settings.ini: " + e.message);
         }
 
+        settings = new GLib.Settings("com.github.maze-n.indicator-daynight");
+
         var indicator_logo = "display-brightness-symbolic";
         var is_dark = get_integer("gtk-application-prefer-dark-theme");
 
@@ -65,10 +69,16 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         restart_button = new Gtk.ModelButton();
         restart_button.text = "Restart Dock and Panel...";
 
+        settings_button = new Gtk.ModelButton();
+        settings_button.text = "Indicator Settings...";
+
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
         main_grid.attach(new Wingpanel.Widgets.Separator (), 0, 1);
-        main_grid.attach(restart_button, 0, 2);
+        if(settings.get_int("button-show") == 1){
+            main_grid.attach(restart_button, 0, 2);
+        }
+        main_grid.attach(settings_button, 0, 3);
 
         this.visible = true;
 
@@ -83,11 +93,58 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             } else {
                 set_integer("gtk-application-prefer-dark-theme", 0);
             }
+            if(settings.get_int("restart-on-toggle") == 1) {
+                Posix.system("pkill wingpanel && pkill plank");
+
+            }
         });
 
         restart_button.clicked.connect(() => {
             Posix.system("pkill wingpanel && pkill plank");
         });
+
+        settings_button.clicked.connect(open_settings_window);
+    }
+
+    public void open_settings_window() {
+        var settings_dialog = new Gtk.Dialog();
+        var content_area = settings_dialog.get_content_area();
+
+        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock and panel on toggling");
+        if(settings.get_int("restart-on-toggle") == 1) {
+            restart_on_toggle_switch.set_active(true);
+        }
+        restart_on_toggle_switch.notify["active"].connect (() => {
+            if(restart_on_toggle_switch.active) {
+                settings.set_int("restart-on-toggle", 1);
+            } else {
+                settings.set_int("restart-on-toggle", 0);
+            }
+        });
+
+        var show_restartbutton_switch = new Wingpanel.Widgets.Switch("Show restart button on indicator");
+        if(settings.get_int("button-show") == 1) {
+            show_restartbutton_switch.set_active(true);
+        }
+        show_restartbutton_switch.notify["active"].connect (() => {
+            if(show_restartbutton_switch.active) {
+                settings.set_int("button-show", 1);
+            } else {
+                settings.set_int("button-show", 0);
+            }
+        });
+
+        var apply_button = new Gtk.Button.with_label("Apply");
+        apply_button.clicked.connect(() => {
+            Posix.system("pkill wingpanel && pkill plank");
+        });
+
+        content_area.add(restart_on_toggle_switch);
+        content_area.add(show_restartbutton_switch);
+        content_area.add(apply_button);
+        settings_dialog.show_all();
+        settings_dialog.present();
+        
     }
     //function to get value from settings.ini
     private int get_integer (string key) {
