@@ -135,7 +135,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         });
 
         var seperator = new Wingpanel.Widgets.Separator();
-        seperator.halign = Gtk.Align.CENTER;
+//        seperator.halign = Gtk.Align.CENTER;
 
         var apply_button = new Gtk.Button.with_label("Apply");
         apply_button.halign = Gtk.Align.CENTER;
