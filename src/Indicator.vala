@@ -134,9 +134,6 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             }
         });
 
-        var seperator = new Wingpanel.Widgets.Separator();
-//        seperator.halign = Gtk.Align.CENTER;
-
         var apply_button = new Gtk.Button.with_label("Apply");
         apply_button.halign = Gtk.Align.CENTER;
         apply_button.get_style_context().add_class("suggested-action");
@@ -146,7 +143,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         content_area.add(restart_on_toggle_switch);
         content_area.add(show_restartbutton_switch);
-        content_area.add(seperator);
+        content_area.add(new Wingpanel.Widgets.Separator());
         content_area.add(apply_button);
         settings_dialog.show_all();
         settings_dialog.present();
