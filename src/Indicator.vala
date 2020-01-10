@@ -108,6 +108,9 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
     public void open_settings_window() {
         var settings_dialog = new Gtk.Dialog();
+        settings_dialog.resizable = false;
+        settings_dialog.deletable = false;
+
         var content_area = settings_dialog.get_content_area();
 
         var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock and panel on toggling");
