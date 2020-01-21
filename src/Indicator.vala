@@ -27,8 +27,6 @@ public class Daynight.Indicator : Wingpanel.Indicator {
     Gtk.ModelButton restart_button;
     Gtk.ModelButton settings_button;
 
-
-
     public Indicator () {
         Object (
             code_name: "Daynight",
@@ -52,16 +50,13 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         settings = new GLib.Settings("com.github.maze-n.indicator-daynight");
 
         var indicator_logo = "display-brightness-symbolic";
-        var is_dark = get_integer("gtk-application-prefer-dark-theme");
+        var is_dark = (get_integer("gtk-application-prefer-dark-theme") == 1) ? true : false;
 
-        toggle_switch = new Wingpanel.Widgets.Switch ("Prefer Dark Variant");
+        toggle_switch = new Wingpanel.Widgets.Switch ("Prefer Dark Variant", is_dark);
         toggle_switch.get_style_context().add_class ("h4");
 
-        if(is_dark == 1) {
-            toggle_switch.set_active(true);
+        if(is_dark) {
             indicator_logo = "weather-clear-night-symbolic";
-        } else {
-            toggle_switch.set_active(false);
         }
 
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
@@ -75,7 +70,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
         main_grid.attach(new Wingpanel.Widgets.Separator (), 0, 1);
-        if(settings.get_int("button-show") == 1){
+        if(settings.get_boolean("button-show")){
             main_grid.attach(restart_button, 0, 2);
         }
         main_grid.attach(settings_button, 0, 3);
@@ -93,7 +88,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             } else {
                 set_integer("gtk-application-prefer-dark-theme", 0);
             }
-            if(settings.get_int("restart-on-toggle") == 1) {
+            if(settings.get_boolean("restart-on-toggle")) {
                 Posix.system("pkill wingpanel && pkill plank");
 
             }
@@ -113,27 +108,21 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         var content_area = settings_dialog.get_content_area();
 
-        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock and panel on toggling");
-        if(settings.get_int("restart-on-toggle") == 1) {
-            restart_on_toggle_switch.set_active(true);
-        }
+        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock and panel on toggling", settings.get_boolean("restart-on-toggle"));
         restart_on_toggle_switch.notify["active"].connect (() => {
             if(restart_on_toggle_switch.active) {
-                settings.set_int("restart-on-toggle", 1);
+                settings.set_boolean("restart-on-toggle", true);
             } else {
-                settings.set_int("restart-on-toggle", 0);
+                settings.set_boolean("restart-on-toggle", false);
             }
         });
 
-        var show_restartbutton_switch = new Wingpanel.Widgets.Switch("Show restart button on indicator");
-        if(settings.get_int("button-show") == 1) {
-            show_restartbutton_switch.set_active(true);
-        }
+        var show_restartbutton_switch = new Wingpanel.Widgets.Switch("Show restart button on indicator", settings.get_boolean("button-show"));
         show_restartbutton_switch.notify["active"].connect (() => {
             if(show_restartbutton_switch.active) {
-                settings.set_int("button-show", 1);
+                settings.set_boolean("button-show", true);
             } else {
-                settings.set_int("button-show", 0);
+                settings.set_boolean("button-show", false);
             }
         });
 
@@ -150,7 +139,6 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         content_area.add(apply_button);
         settings_dialog.show_all();
         settings_dialog.present();
-        
     }
     //function to get value from settings.ini
     private int get_integer (string key) {
@@ -193,7 +181,6 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             
             main_grid.show_all ();
         }
-
         return main_grid;
     }
 
