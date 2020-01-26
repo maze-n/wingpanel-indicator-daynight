@@ -2,7 +2,7 @@
 
 <p align="center">A wingpanel indicator to toggle 'prefer dark variant' option in elementary OS.</p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/maze-n/indicator-daynight/master/screenshots/screenshot-1.png" width="415.5">
+<p align="center"><img src="https://raw.githubusercontent.com/maze-n/indicator-daynight/master/screenshots/screenshot-1.png" width="400">
 </p>
 
 ## Install, build and run
