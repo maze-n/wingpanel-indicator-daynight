@@ -1,8 +1,8 @@
-<h1 align="center">indicator-daynight</h1>
+<h1 align="center">wingpanel-indicator-daynight</h1>
 
 <p align="center">A wingpanel indicator to toggle 'prefer dark variant' option in elementary OS.</p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/maze-n/indicator-daynight/master/screenshots/screenshot-1.png" width="400">
+<p align="center"><img src="https://raw.githubusercontent.com/maze-n/wingpanel-indicator-daynight/master/screenshots/screenshot-1.png" width="350">
 </p>
 
 ## Install, build and run
@@ -13,9 +13,9 @@ sudo apt install elementary-sdk meson libwingpanel-2.0-dev
 #install dependencies
 sudo apt install libgconf2-dev libglib2.0-dev libgranite-dev libxml2-dev
 # clone repository
-git clone https://github.com/maze-n/indicator-daynight.git indicator-daynight
+git clone https://github.com/maze-n/wingpanel-indicator-daynight.git wingpanel-indicator-daynight
 # cd to dir
-cd indicator-daynight
+cd wingpanel-indicator-daynight
 # run meson
 meson build --prefix=/usr
 # cd to build, build and test
