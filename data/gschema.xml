@@ -3,8 +3,8 @@
     <schema path="/com/github/maze-n/indicator-daynight/" id="com.github.maze-n.indicator-daynight">
         <key name="restart-on-toggle" type="b">
             <default>false</default>
-            <summary>Restart Dock and Panel on toggle.</summary>
-            <description>The saved value for determining whether the user want to restart dock and panel on toggle.</description>
+            <summary>Restart Dock on toggle.</summary>
+            <description>The saved value for determining whether the user want to restart the dock on toggle.</description>
         </key>
         <key name="button-show" type="b">
             <default>true</default>

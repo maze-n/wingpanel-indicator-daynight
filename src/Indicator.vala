@@ -47,6 +47,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             warning ("Error loading GTK+ Keyfile settings.ini: " + e.message);
         }
 
+        var gtk_settings = Gtk.Settings.get_default ();
         settings = new GLib.Settings("com.github.maze-n.indicator-daynight");
 
         var indicator_logo = "display-brightness-symbolic";
@@ -54,6 +55,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         toggle_switch = new Wingpanel.Widgets.Switch ("Prefer Dark Variant", is_dark);
         toggle_switch.get_style_context().add_class ("h4");
+        toggle_switch.bind_property ("active", gtk_settings, "gtk_application_prefer_dark_theme");
 
         if(is_dark) {
             indicator_logo = "weather-clear-night-symbolic";
@@ -62,7 +64,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
         restart_button = new Gtk.ModelButton();
-        restart_button.text = "Restart Dock and Panel...";
+        restart_button.text = "Restart Dock...";
 
         settings_button = new Gtk.ModelButton();
         settings_button.text = "Indicator Settings...";
@@ -89,13 +91,13 @@ public class Daynight.Indicator : Wingpanel.Indicator {
                 set_integer("gtk-application-prefer-dark-theme", 0);
             }
             if(settings.get_boolean("restart-on-toggle")) {
-                Posix.system("pkill wingpanel && pkill plank");
+                Posix.system("pkill plank");
 
             }
         });
 
         restart_button.clicked.connect(() => {
-            Posix.system("pkill wingpanel && pkill plank");
+            Posix.system("pkill plank");
         });
 
         settings_button.clicked.connect(open_settings_window);
@@ -108,7 +110,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         var content_area = settings_dialog.get_content_area();
 
-        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock and panel on toggling", settings.get_boolean("restart-on-toggle"));
+        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock on toggling", settings.get_boolean("restart-on-toggle"));
         restart_on_toggle_switch.notify["active"].connect (() => {
             if(restart_on_toggle_switch.active) {
                 settings.set_boolean("restart-on-toggle", true);
