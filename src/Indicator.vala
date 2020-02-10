@@ -62,6 +62,15 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         }
 
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
+        display_icon.button_press_event.connect ((e) => {
+            if (e.button == Gdk.BUTTON_MIDDLE) {
+                toggle_switch.active = !toggle_switch.active;
+
+                return Gdk.EVENT_STOP;
+            }
+
+            return Gdk.EVENT_PROPAGATE;
+        });
 
         restart_button = new Gtk.ModelButton();
         restart_button.text = "Restart Dock...";
