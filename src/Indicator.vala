@@ -29,9 +29,9 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
     public Indicator () {
         Object (
-            code_name: "Daynight",
-            display_name: _("indicator-daynight"),
-            description:_("A wingpanel indicator to toggle 'prefer dark variant' option in Elementary OS.")
+            code_name: "indicator-daynight",
+            display_name: _("Daynight"),
+            description: _("A wingpanel indicator to toggle 'prefer dark variant' option in elementary OS.")
         );
     }
 
@@ -64,10 +64,10 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         display_icon = new Gtk.Image.from_icon_name (indicator_logo, Gtk.IconSize.LARGE_TOOLBAR);
 
         restart_button = new Gtk.ModelButton();
-        restart_button.text = "Restart Dock...";
+        restart_button.text = _("Restart Dock");
 
         settings_button = new Gtk.ModelButton();
-        settings_button.text = "Indicator Settings...";
+        settings_button.text = _("Indicator Settings…");
 
         main_grid = new Gtk.Grid();
         main_grid.attach(toggle_switch, 0, 0);
@@ -110,7 +110,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
         var content_area = settings_dialog.get_content_area();
 
-        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch("Restart dock on toggling", settings.get_boolean("restart-on-toggle"));
+        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch(_("Restart dock on toggling"), settings.get_boolean("restart-on-toggle"));
         restart_on_toggle_switch.notify["active"].connect (() => {
             if(restart_on_toggle_switch.active) {
                 settings.set_boolean("restart-on-toggle", true);
@@ -119,7 +119,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             }
         });
 
-        var show_restartbutton_switch = new Wingpanel.Widgets.Switch("Show restart button on indicator", settings.get_boolean("button-show"));
+        var show_restartbutton_switch = new Wingpanel.Widgets.Switch(_("Show restart button on indicator"), settings.get_boolean("button-show"));
         show_restartbutton_switch.notify["active"].connect (() => {
             if(show_restartbutton_switch.active) {
                 settings.set_boolean("button-show", true);
@@ -128,7 +128,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             }
         });
 
-        var apply_button = new Gtk.Button.with_label("Apply");
+        var apply_button = new Gtk.Button.with_label(_("Apply"));
         apply_button.halign = Gtk.Align.CENTER;
         apply_button.get_style_context().add_class("suggested-action");
         apply_button.clicked.connect(() => {
