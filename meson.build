@@ -1,5 +1,6 @@
 project('com.github.maze-n.indicator-daynight', 'vala', 'c')
 
+i18n = import('i18n')
 gettext_name = meson.project_name()
 
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(gettext_name), language:'c')
@@ -28,6 +29,7 @@ shared_module(
     install_dir : wingpanel_dep.get_pkgconfig_variable('indicatorsdir')
 )
 
-subdir('data/')
+subdir('data')
+subdir('po')
 
 meson.add_install_script('meson/post_install.py')
