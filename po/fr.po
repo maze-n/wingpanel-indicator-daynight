@@ -28,6 +28,10 @@ msgid ""
 msgstr ""
 "Un indicateur Wingpanel pour activer/désactiver l'option « Préférer le mode sombre » dans elementary OS."
 
+#: src/Indicator.vala:56
+msgid "Prefer Dark Variant"
+msgstr ""
+
 #: src/Indicator.vala:76
 msgid "Restart Dock"
 msgstr "Redémarrer le dock"

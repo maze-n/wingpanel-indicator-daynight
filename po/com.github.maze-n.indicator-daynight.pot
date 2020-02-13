@@ -27,6 +27,10 @@ msgid ""
 "OS."
 msgstr ""
 
+#: src/Indicator.vala:56
+msgid "Prefer Dark Variant"
+msgstr ""
+
 #: src/Indicator.vala:76
 msgid "Restart Dock"
 msgstr ""
