@@ -5,7 +5,18 @@
 <p align="center"><img src="https://raw.githubusercontent.com/maze-n/wingpanel-indicator-daynight/master/screenshots/screenshot-1.png" width="350">
 </p>
 
-## Install, build and run
+## Install
+
+Get the .deb file from <a href="https://github.com/maze-n/wingpanel-indicator-daynight/releases/download/v1.1/wingpanel-indicator-daynight_1.1-1_amd64.deb">here</a>.
+Logout and then login after installation.
+
+## Uninstall
+
+```bash
+sudo apt remove wingpanel-indicator-daynight
+```
+
+## Build & Run
 
 ```bash
 # install elementary-sdk, meson and libwingpanel
@@ -25,7 +36,7 @@ sudo ninja install
 pkill wingpanel -9
 ```
 
-## Uninstall
+## Destroy
 
 ```bash
 cd build
