@@ -29,9 +29,7 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
     public Indicator () {
         Object (
-            code_name: "indicator-daynight",
-            display_name: _("Daynight"),
-            description: _("A wingpanel indicator to toggle 'prefer dark variant' option in elementary OS.")
+            code_name: "indicator-daynight"
         );
     }
 
