@@ -18,14 +18,14 @@
  */
 
 public class Daynight.Indicator : Wingpanel.Indicator {
-    public GLib.Settings settings;
+    private GLib.Settings settings;
     private Gtk.Grid main_grid;
     private Gtk.Image display_icon;
     private GLib.KeyFile keyfile;
     private string path;
     private Wingpanel.Widgets.Switch toggle_switch;
-    Gtk.ModelButton restart_button;
-    Gtk.ModelButton settings_button;
+    private Gtk.ModelButton restart_button;
+    private Gtk.ModelButton settings_button;
 
     public Indicator () {
         Object (
