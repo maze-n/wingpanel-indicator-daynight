@@ -18,14 +18,14 @@
  */
 
 public class Daynight.Indicator : Wingpanel.Indicator {
-    public GLib.Settings settings;
+    private GLib.Settings settings;
     private Gtk.Grid main_grid;
     private Gtk.Image display_icon;
     private GLib.KeyFile keyfile;
     private string path;
     private Wingpanel.Widgets.Switch toggle_switch;
-    Gtk.ModelButton restart_button;
-    Gtk.ModelButton settings_button;
+    private Gtk.ModelButton restart_button;
+    private Gtk.ModelButton settings_button;
 
     public Indicator () {
         Object (
@@ -40,24 +40,23 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         keyfile = new GLib.KeyFile ();
 
         try {
-            path = GLib.Environment.get_user_config_dir() + "/gtk-3.0/settings.ini";
+            path = GLib.Environment.get_user_config_dir () + "/gtk-3.0/settings.ini";
             keyfile.load_from_file (path, 0);
-        }
-        catch (Error e) {
+        } catch (Error e) {
             warning ("Error loading GTK+ Keyfile settings.ini: " + e.message);
         }
 
         var gtk_settings = Gtk.Settings.get_default ();
-        settings = new GLib.Settings("com.github.maze-n.indicator-daynight");
+        settings = new GLib.Settings ("com.github.maze-n.indicator-daynight");
 
         var indicator_logo = "display-brightness-symbolic";
-        var is_dark = (get_integer("gtk-application-prefer-dark-theme") == 1) ? true : false;
+        var is_dark = (get_integer ("gtk-application-prefer-dark-theme") == 1) ? true : false;
 
         toggle_switch = new Wingpanel.Widgets.Switch (_("Prefer Dark Variant"), is_dark);
-        toggle_switch.get_style_context().add_class ("h4");
+        toggle_switch.get_style_context ().add_class ("h4");
         toggle_switch.bind_property ("active", gtk_settings, "gtk_application_prefer_dark_theme");
 
-        if(is_dark) {
+        if (is_dark) {
             indicator_logo = "weather-clear-night-symbolic";
         }
 
@@ -72,98 +71,99 @@ public class Daynight.Indicator : Wingpanel.Indicator {
             return Gdk.EVENT_PROPAGATE;
         });
 
-        restart_button = new Gtk.ModelButton();
+        restart_button = new Gtk.ModelButton ();
         restart_button.text = _("Restart Dock");
 
-        settings_button = new Gtk.ModelButton();
+        settings_button = new Gtk.ModelButton ();
         settings_button.text = _("Indicator Settings…");
 
-        main_grid = new Gtk.Grid();
-        main_grid.attach(toggle_switch, 0, 0);
-        main_grid.attach(new Wingpanel.Widgets.Separator (), 0, 1);
-        if(settings.get_boolean("button-show")){
-            main_grid.attach(restart_button, 0, 2);
+        main_grid = new Gtk.Grid ();
+        main_grid.attach (toggle_switch, 0, 0);
+        main_grid.attach (new Wingpanel.Widgets.Separator (), 0, 1);
+        if (settings.get_boolean ("button-show")) {
+            main_grid.attach (restart_button, 0, 2);
         }
-        main_grid.attach(settings_button, 0, 3);
+        main_grid.attach (settings_button, 0, 3);
 
         this.visible = true;
 
-        connect_signals();
+        connect_signals ();
     }
 
-    private void connect_signals() {
+    private void connect_signals () {
         toggle_switch.notify["active"].connect (() => {
             display_icon.set_from_icon_name (toggle_switch.active ? "weather-clear-night-symbolic" : "display-brightness-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
-            if(toggle_switch.active){
-                set_integer("gtk-application-prefer-dark-theme", 1);
+            if (toggle_switch.active) {
+                set_integer ("gtk-application-prefer-dark-theme", 1);
             } else {
-                set_integer("gtk-application-prefer-dark-theme", 0);
+                set_integer ("gtk-application-prefer-dark-theme", 0);
             }
-            if(settings.get_boolean("restart-on-toggle")) {
-                Posix.system("pkill plank");
 
+            if (settings.get_boolean ("restart-on-toggle")) {
+                Posix.system ("pkill plank");
             }
         });
 
-        restart_button.clicked.connect(() => {
-            Posix.system("pkill plank");
+        restart_button.clicked.connect (() => {
+            Posix.system ("pkill plank");
         });
 
-        settings_button.clicked.connect(open_settings_window);
+        settings_button.clicked.connect (open_settings_window);
     }
 
-    public void open_settings_window() {
-        var settings_dialog = new Gtk.Dialog();
+    public void open_settings_window () {
+        var settings_dialog = new Gtk.Dialog ();
         settings_dialog.resizable = false;
         settings_dialog.deletable = false;
 
-        var content_area = settings_dialog.get_content_area();
+        var content_area = settings_dialog.get_content_area ();
 
-        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch(_("Restart dock on toggling"), settings.get_boolean("restart-on-toggle"));
+        var restart_on_toggle_switch = new Wingpanel.Widgets.Switch (_("Restart dock on toggling"), settings.get_boolean ("restart-on-toggle"));
         restart_on_toggle_switch.notify["active"].connect (() => {
-            if(restart_on_toggle_switch.active) {
-                settings.set_boolean("restart-on-toggle", true);
+            if (restart_on_toggle_switch.active) {
+                settings.set_boolean ("restart-on-toggle", true);
             } else {
-                settings.set_boolean("restart-on-toggle", false);
+                settings.set_boolean ("restart-on-toggle", false);
             }
         });
 
-        var show_restartbutton_switch = new Wingpanel.Widgets.Switch(_("Show restart button on indicator"), settings.get_boolean("button-show"));
+        var show_restartbutton_switch = new Wingpanel.Widgets.Switch (_("Show restart button on indicator"), settings.get_boolean ("button-show"));
         show_restartbutton_switch.notify["active"].connect (() => {
-            if(show_restartbutton_switch.active) {
-                settings.set_boolean("button-show", true);
+            if (show_restartbutton_switch.active) {
+                settings.set_boolean ("button-show", true);
             } else {
-                settings.set_boolean("button-show", false);
+                settings.set_boolean ("button-show", false);
             }
         });
 
-        var apply_button = new Gtk.Button.with_label(_("Apply"));
+        var apply_button = new Gtk.Button.with_label (_("Apply"));
         apply_button.halign = Gtk.Align.CENTER;
-        apply_button.get_style_context().add_class("suggested-action");
-        apply_button.clicked.connect(() => {
-            Posix.system("pkill wingpanel");
+        apply_button.get_style_context ().add_class ("suggested-action");
+        apply_button.clicked.connect (() => {
+            Posix.system ("pkill wingpanel");
         });
 
-        content_area.add(restart_on_toggle_switch);
-        content_area.add(show_restartbutton_switch);
-        content_area.add(new Wingpanel.Widgets.Separator());
-        content_area.add(apply_button);
-        settings_dialog.show_all();
-        settings_dialog.present();
+        content_area.add (restart_on_toggle_switch);
+        content_area.add (show_restartbutton_switch);
+        content_area.add (new Wingpanel.Widgets.Separator ());
+        content_area.add (apply_button);
+        settings_dialog.show_all ();
+        settings_dialog.present ();
     }
+
     //function to get value from settings.ini
     private int get_integer (string key) {
         int key_int = 0;
 
         try {
             key_int = keyfile.get_integer ("Settings", key);
-        }
-        catch (Error e) {
+        } catch (Error e) {
             warning ("Error getting GTK+ int setting: " + e.message);
         }
 
         return key_int;
     }
+
     //function to set value into settings.ini
     private void set_integer (string key, int val) {
         keyfile.set_integer ("Settings", key, val);
@@ -173,10 +173,9 @@ public class Daynight.Indicator : Wingpanel.Indicator {
 
     private void save_keyfile () {
         try {
-            string data = keyfile.to_data();
-            GLib.FileUtils.set_contents(path, data);
-        }
-        catch (GLib.FileError e) {
+            string data = keyfile.to_data ();
+            GLib.FileUtils.set_contents (path, data);
+        } catch (GLib.FileError e) {
             warning ("Error saving GTK+ Keyfile settings.ini: " + e.message);
         }
     }
@@ -189,9 +188,10 @@ public class Daynight.Indicator : Wingpanel.Indicator {
         if (main_grid == null) {
             main_grid = new Gtk.Grid ();
             main_grid.set_orientation (Gtk.Orientation.VERTICAL);
-            
+
             main_grid.show_all ();
         }
+
         return main_grid;
     }
 
@@ -205,6 +205,7 @@ public Wingpanel.Indicator? get_indicator (Module module, Wingpanel.IndicatorMan
     if (server_type != Wingpanel.IndicatorManager.ServerType.SESSION) {
         return null;
     }
+
     debug ("Activating daynight widget");
     var indicator = new Daynight.Indicator ();
     return indicator;
